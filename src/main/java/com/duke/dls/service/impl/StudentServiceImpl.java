@@ -45,12 +45,15 @@ public class StudentServiceImpl implements StudentService {
         student.setAltEmail(request.getAltEmail());
         student.setEmail(request.getEmail());
         student.setFirstName(request.getFirstName());
-        student.setLaptopSn(request.getLaptopSn());
         student.setLastName(request.getLastName());
         student.setNetId(request.getNetId());
-        student.setPowerAdapterSn(request.getPowerAdapterSn());
         student.setProgramYear(request.getProgramYear());
 
         return studentEntityRepository.saveAndFlush(student);
+    }
+
+    @Override
+    public void deleteStudent(Long id) {
+        studentEntityRepository.deleteById(id);
     }
 }

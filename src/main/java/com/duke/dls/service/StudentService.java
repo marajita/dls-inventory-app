@@ -12,4 +12,6 @@ public interface StudentService {
     public void insertStudent(StudentRequest request);
 
     public Student updateStudent(StudentRequest request);
+
+    public void deleteStudent(Long id);
 }

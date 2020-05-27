@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Student {
+public class Student extends DomainBase{
 
     @Id
     @Column(name = "id")
@@ -36,10 +36,5 @@ public class Student {
     @Column(name = "programYear")
     private String programYear;
 
-    @Column(name = "laptopSn")
-    private String laptopSn;
-
-    @Column(name = "powerAdapterSn")
-    private String powerAdapterSn;
 
 }
