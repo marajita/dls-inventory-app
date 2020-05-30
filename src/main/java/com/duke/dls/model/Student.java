@@ -27,14 +27,17 @@ public class Student extends DomainBase{
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "dukeEmail")
+    private String dukeEmail;
 
     @Column(name = "altEmail")
     private String altEmail;
 
     @Column(name = "programYear")
     private String programYear;
+
+    @Column(name = "preferredName")
+    private String preferredName;
 
 
 }

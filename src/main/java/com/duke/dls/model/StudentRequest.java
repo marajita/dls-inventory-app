@@ -18,7 +18,9 @@ public class StudentRequest {
 
     private String lastName;
 
-    private String email;
+    private String preferredName;
+
+    private String dukeEmail;
 
     private String altEmail;
 

@@ -43,11 +43,12 @@ public class StudentServiceImpl implements StudentService {
     public Student updateStudent(StudentRequest request) {
         Student student = studentEntityRepository.findById(request.getId()).isPresent() ? studentEntityRepository.findById(request.getId()).get() : null;
         student.setAltEmail(request.getAltEmail());
-        student.setEmail(request.getEmail());
+        student.setDukeEmail(request.getDukeEmail());
         student.setFirstName(request.getFirstName());
         student.setLastName(request.getLastName());
         student.setNetId(request.getNetId());
         student.setProgramYear(request.getProgramYear());
+        student.setPreferredName(request.getPreferredName());
 
         return studentEntityRepository.saveAndFlush(student);
     }

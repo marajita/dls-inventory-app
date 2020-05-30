@@ -37,21 +37,21 @@ public class StudentController {
     }
 
     @PostMapping(value = "/insertStudent", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> insertStudent(@RequestBody StudentRequest request) {
+    public ResponseEntity insertStudent(@RequestBody StudentRequest request) {
         studentService.insertStudent(request);
-        return ResponseEntity.ok("Successful");
+        return ResponseEntity.ok(request);
     }
 
     @PostMapping(value = "/updateStudent", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> updateStudent(@RequestBody StudentRequest request) {
+    public ResponseEntity updateStudent(@RequestBody StudentRequest request) {
         studentService.updateStudent(request);
-        return ResponseEntity.ok("Successful");
+        return ResponseEntity.ok(request);
+
     }
 
     @DeleteMapping(value = "/deleteStudent/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
+    public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
-        return ResponseEntity.ok("Successful");
     }
 
 }
