@@ -49,6 +49,13 @@ public class StudentController {
 
     }
 
+    @PostMapping(value = "/deactivateStudent", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity deactivateStudent(@RequestBody StudentRequest request) {
+        studentService.deactivateStudent(request);
+        return ResponseEntity.ok(request);
+
+    }
+
     @DeleteMapping(value = "/deleteStudent/{id}")
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);

@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 public class StudentRequest {
 
-    private Long id;
+    private Long studentId;
 
     private String netId;
 

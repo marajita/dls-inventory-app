@@ -23,7 +23,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudents() {
-        return studentEntityRepository.findAll();
+        return studentEntityRepository.findAllActive();
     }
 
     @Override
@@ -31,6 +31,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = new Student();
         try {
             BeanUtils.copyProperties(student, request);
+            student.setIsActive("Y");
             studentEntityRepository.saveAndFlush(student);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudent(StudentRequest request) {
-        Student student = studentEntityRepository.findById(request.getId()).isPresent() ? studentEntityRepository.findById(request.getId()).get() : null;
+        Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
         student.setAltEmail(request.getAltEmail());
         student.setDukeEmail(request.getDukeEmail());
         student.setFirstName(request.getFirstName());
@@ -56,5 +57,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long id) {
         studentEntityRepository.deleteById(id);
+    }
+
+    @Override
+    public void deactivateStudent(StudentRequest request) {
+        Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
+        student.setIsActive("N");
+        studentEntityRepository.saveAndFlush(student);
     }
 }

@@ -14,9 +14,9 @@ import javax.persistence.*;
 public class Student extends DomainBase{
 
     @Id
-    @Column(name = "id")
+    @Column(name = "studentId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long studentId;
 
     @Column(name = "netId")
     private String netId;
@@ -38,6 +38,13 @@ public class Student extends DomainBase{
 
     @Column(name = "preferredName")
     private String preferredName;
+
+    @Column(name = "isActive", length = 1)
+    private String isActive;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "inventoryId")
+    private Inventory inventory;
 
 
 }
