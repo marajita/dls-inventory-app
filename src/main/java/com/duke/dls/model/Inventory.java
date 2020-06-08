@@ -40,4 +40,7 @@ public class Inventory extends DomainBase {
     @Column(name = "isCheckedout")
     private String ischeckedout;
 
+    @Column(name = "isActive", length = 1)
+    private String isActive;
+
 }

@@ -1,7 +1,9 @@
 package com.duke.dls.service.impl;
 
+import com.duke.dls.model.Inventory;
 import com.duke.dls.model.Student;
 import com.duke.dls.model.StudentRequest;
+import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.StudentEntityRepository;
 import com.duke.dls.service.StudentService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -20,6 +22,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     StudentEntityRepository studentEntityRepository;
+
+    @Autowired
+    InventoryEntityRepository inventoryEntityRepository;
 
     @Override
     public List<Student> getAllStudents() {
@@ -64,5 +69,18 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
         student.setIsActive("N");
         studentEntityRepository.saveAndFlush(student);
+    }
+
+    @Override
+    public void assignInventory(StudentRequest request) {
+        Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
+        Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
+
+        student.setInventory(inventory);
+        studentEntityRepository.saveAndFlush(student);
+
+        inventory.setIscheckedout("Y");
+        inventory.setStatus("IN_USE");
+        inventoryEntityRepository.saveAndFlush(inventory);
     }
 }

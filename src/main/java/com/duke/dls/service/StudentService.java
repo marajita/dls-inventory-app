@@ -16,4 +16,6 @@ public interface StudentService {
     public void deleteStudent(Long id);
 
     void deactivateStudent(StudentRequest request);
+
+    void assignInventory(StudentRequest request);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class LaptopResponse {
+public class InventoryResponse {
 
-    List<Laptop> laptopList;
+    List<Inventory> inventoryList;
 }

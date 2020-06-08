@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @Controller
@@ -52,6 +51,13 @@ public class StudentController {
     @PostMapping(value = "/deactivateStudent", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity deactivateStudent(@RequestBody StudentRequest request) {
         studentService.deactivateStudent(request);
+        return ResponseEntity.ok(request);
+
+    }
+
+    @PostMapping(value = "/assignInventory", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity assignInventory(@RequestBody StudentRequest request) {
+        studentService.assignInventory(request);
         return ResponseEntity.ok(request);
 
     }

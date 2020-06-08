@@ -13,11 +13,15 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class LaptopRequest {
+public class InventoryRequest {
 
-    private Long id;
+    private Long inventoryId;
 
     private String laptopSn;
 
     private String powerAdapterSn;
+
+    private String status;
+
+    private String ischeckedout;
 }

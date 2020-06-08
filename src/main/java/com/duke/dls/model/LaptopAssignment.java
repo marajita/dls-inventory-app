@@ -9,12 +9,9 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 @Getter
@@ -30,16 +27,16 @@ public class LaptopAssignment extends DomainBase{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "STUDENT_ID")
-    private Student student;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "LAPTOP_ID")
-    private Laptop laptop;
-
-    @Column(name = "COMMENTS")
-    private String comments;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "STUDENT_ID")
+//    private Student student;
+//
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "LAPTOP_ID")
+//    private Laptop laptop;
+//
+//    @Column(name = "COMMENTS")
+//    private String comments;
 
 
 
