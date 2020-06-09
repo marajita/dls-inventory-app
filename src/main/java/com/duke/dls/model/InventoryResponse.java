@@ -1,5 +1,6 @@
 package com.duke.dls.model;
 
+import com.duke.dls.model.entity.Inventory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

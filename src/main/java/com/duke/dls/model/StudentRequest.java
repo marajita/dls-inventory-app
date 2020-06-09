@@ -36,4 +36,6 @@ public class StudentRequest {
     private String powerAdapterSn;
 
     private Long inventoryId;
+
+    private String comments;
 }

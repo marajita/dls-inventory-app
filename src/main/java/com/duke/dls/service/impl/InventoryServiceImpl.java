@@ -1,8 +1,10 @@
 package com.duke.dls.service.impl;
 
-import com.duke.dls.model.Inventory;
 import com.duke.dls.model.InventoryRequest;
+import com.duke.dls.model.entity.Inventory;
+import com.duke.dls.model.entity.InventoryHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
+import com.duke.dls.repo.InventoryHistoryEntityRepository;
 import com.duke.dls.service.InventoryService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -19,6 +21,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     InventoryEntityRepository inventoryEntityRepository;
+
+    @Autowired
+    InventoryHistoryEntityRepository inventoryHistoryEntityRepository;
 
     @Override
     public List<Inventory> getAllInventory() {
@@ -63,5 +68,26 @@ public class InventoryServiceImpl implements InventoryService {
         Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
         inventory.setIsActive("N");
         inventoryEntityRepository.saveAndFlush(inventory);
+    }
+
+    @Override
+    public void repairInventory(InventoryRequest request) {
+        Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
+        inventory.setIsActive("N");
+        inventory.setStatus(request.getStatus());
+        inventoryEntityRepository.saveAndFlush(inventory);
+
+        InventoryHistory inventoryHistory = InventoryHistory.builder().inventoryId(request.getInventoryId()).comments(request.getComments()).status(request.getStatus()).build();
+        inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+    }
+
+    @Override
+    public Boolean isInventoryInUse(InventoryRequest request) {
+        Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
+        if (inventory.getStatus().equalsIgnoreCase("IN_USE")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

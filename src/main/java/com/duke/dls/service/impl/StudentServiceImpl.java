@@ -1,10 +1,12 @@
 package com.duke.dls.service.impl;
 
-import com.duke.dls.model.Inventory;
-import com.duke.dls.model.Student;
+import com.duke.dls.model.entity.Inventory;
+import com.duke.dls.model.entity.Student;
 import com.duke.dls.model.StudentRequest;
+import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.StudentEntityRepository;
+import com.duke.dls.repo.StudentHistoryEntityRepository;
 import com.duke.dls.service.StudentService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -22,6 +24,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     StudentEntityRepository studentEntityRepository;
+
+    @Autowired
+    StudentHistoryEntityRepository studentHistoryEntityRepository;
 
     @Autowired
     InventoryEntityRepository inventoryEntityRepository;
@@ -82,5 +87,12 @@ public class StudentServiceImpl implements StudentService {
         inventory.setIscheckedout("Y");
         inventory.setStatus("IN_USE");
         inventoryEntityRepository.saveAndFlush(inventory);
+    }
+
+    @Override
+    public void updateStudentHistory(StudentRequest request) {
+        Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
+        StudentHistory studentHistory = StudentHistory.builder().studentId(request.getStudentId()).netId(student.getNetId()).comments(request.getComments()).build();
+        studentHistoryEntityRepository.saveAndFlush(studentHistory);
     }
 }

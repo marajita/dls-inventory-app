@@ -1,6 +1,6 @@
 package com.duke.dls.service;
 
-import com.duke.dls.model.Student;
+import com.duke.dls.model.entity.Student;
 import com.duke.dls.model.StudentRequest;
 
 import java.util.List;
@@ -18,4 +18,6 @@ public interface StudentService {
     void deactivateStudent(StudentRequest request);
 
     void assignInventory(StudentRequest request);
+
+    void updateStudentHistory(StudentRequest request);
 }

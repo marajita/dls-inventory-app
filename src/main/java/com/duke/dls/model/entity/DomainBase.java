@@ -1,4 +1,4 @@
-package com.duke.dls.model;
+package com.duke.dls.model.entity;
 
 import com.duke.dls.constant.DomainConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;

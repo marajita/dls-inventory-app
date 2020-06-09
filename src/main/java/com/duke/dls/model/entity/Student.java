@@ -1,4 +1,4 @@
-package com.duke.dls.model;
+package com.duke.dls.model.entity;
 
 import lombok.*;
 

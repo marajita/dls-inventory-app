@@ -1,5 +1,6 @@
 package com.duke.dls.model;
 
+import com.duke.dls.model.entity.Student;
 import lombok.*;
 
 import java.util.List;

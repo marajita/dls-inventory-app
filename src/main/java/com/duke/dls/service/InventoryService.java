@@ -1,6 +1,6 @@
 package com.duke.dls.service;
 
-import com.duke.dls.model.Inventory;
+import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.InventoryRequest;
 
 import java.util.List;
@@ -18,4 +18,8 @@ public interface InventoryService {
     public void deleteInventory(Long id);
 
     void deactivateInventory(InventoryRequest request);
+
+    void repairInventory(InventoryRequest request);
+
+    Boolean isInventoryInUse(InventoryRequest request);
 }

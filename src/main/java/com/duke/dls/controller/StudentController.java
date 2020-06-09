@@ -62,6 +62,13 @@ public class StudentController {
 
     }
 
+    @PostMapping(value = "/updateStudentHistory", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateStudentHistory(@RequestBody StudentRequest request) {
+        studentService.updateStudentHistory(request);
+        return ResponseEntity.ok(request);
+
+    }
+
     @DeleteMapping(value = "/deleteStudent/{id}")
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);

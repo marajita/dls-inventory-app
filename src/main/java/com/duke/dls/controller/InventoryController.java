@@ -62,6 +62,20 @@ public class InventoryController {
 
     }
 
+    @PostMapping(value = "/repairInventory", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity repairInventory(@RequestBody InventoryRequest request) {
+        inventoryService.repairInventory(request);
+        return ResponseEntity.ok(request);
+
+    }
+
+    @PostMapping(value = "/isInventoryInUse", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Boolean> isInventoryInUse(@RequestBody InventoryRequest request) {
+       Boolean val =  inventoryService.isInventoryInUse(request);
+        return ResponseEntity.ok(val);
+
+    }
+
     @DeleteMapping(value = "/deleteInventory/{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);

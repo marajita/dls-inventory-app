@@ -24,4 +24,6 @@ public class InventoryRequest {
     private String status;
 
     private String ischeckedout;
+
+    private String comments;
 }
