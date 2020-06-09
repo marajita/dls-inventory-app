@@ -1,4 +1,4 @@
-package com.duke.dls.model;
+package com.duke.dls.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,24 +20,20 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Builder
 @ToString
-public class LaptopAssignment extends DomainBase{
+public class StudentHistory extends DomainBase {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "studentHistoryId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long studentHistoryId;
 
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "STUDENT_ID")
-//    private Student student;
-//
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "LAPTOP_ID")
-//    private Laptop laptop;
-//
-//    @Column(name = "COMMENTS")
-//    private String comments;
+    @Column(name = "studentId")
+    private Long studentId;
 
+    @Column(name = "netId")
+    private String netId;
 
+    @Column(name = "comments")
+    private String comments;
 
 }
