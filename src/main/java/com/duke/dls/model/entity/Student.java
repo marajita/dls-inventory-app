@@ -1,8 +1,23 @@
 package com.duke.dls.model.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 @Getter
@@ -11,7 +26,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Student extends DomainBase{
+public class Student extends DomainBase {
 
     @Id
     @Column(name = "studentId")
@@ -46,5 +61,7 @@ public class Student extends DomainBase{
     @JoinColumn(name = "inventoryId")
     private Inventory inventory;
 
+    @Transient
+    private String laptopSn;
 
 }

@@ -1,8 +1,8 @@
 package com.duke.dls.constant;
 
-public class DomainConstants {
+public class AppConstants {
 	
-	private DomainConstants() {
+	private AppConstants() {
 		
 	}
 	
@@ -13,4 +13,9 @@ public class DomainConstants {
 
     public static final String Y = "Y";
     public static final String N = "N";
+
+	public static final String SPARE = "SPARE";
+	public static final String IN_USE = "IN_USE";
+	public static final String IN_REPAIR = "IN_REPAIR";
+
 }

@@ -1,6 +1,6 @@
 package com.duke.dls.model.entity;
 
-import com.duke.dls.constant.DomainConstants;
+import com.duke.dls.constant.AppConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -22,7 +22,7 @@ public abstract class DomainBase {
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DomainConstants.DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AppConstants.DATE_TIME_FORMAT)
     @Column(name = "CREATED_DATE")
     private LocalDateTime createdDate;
 
@@ -31,7 +31,7 @@ public abstract class DomainBase {
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DomainConstants.DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AppConstants.DATE_TIME_FORMAT)
     @Column(name = "UPDATED_DATE")
     private LocalDateTime updateDate;
 

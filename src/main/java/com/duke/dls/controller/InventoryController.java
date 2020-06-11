@@ -44,15 +44,15 @@ public class InventoryController {
     }
 
     @PostMapping(value = "/insertInventory", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> insertInventory(@RequestBody InventoryRequest request) {
+    public ResponseEntity insertInventory(@RequestBody InventoryRequest request) {
         inventoryService.insertInventory(request);
-        return ResponseEntity.ok("Successful");
+        return ResponseEntity.ok(request);
     }
 
     @PostMapping(value = "/updateInventory", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> updateInventory(@RequestBody InventoryRequest request) {
+    public ResponseEntity updateInventory(@RequestBody InventoryRequest request) {
         inventoryService.updateInventory(request);
-        return ResponseEntity.ok("Successful");
+        return ResponseEntity.ok(request);
     }
 
     @PostMapping(value = "/deactivateInventory", consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -77,9 +77,9 @@ public class InventoryController {
     }
 
     @DeleteMapping(value = "/deleteInventory/{id}")
-    public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
+    public ResponseEntity deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);
-        return ResponseEntity.ok("Successful");
+        return ResponseEntity.ok(id);
     }
 
 }

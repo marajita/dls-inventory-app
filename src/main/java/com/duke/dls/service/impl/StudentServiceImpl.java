@@ -1,10 +1,13 @@
 package com.duke.dls.service.impl;
 
+import com.duke.dls.constant.AppConstants;
 import com.duke.dls.model.entity.Inventory;
+import com.duke.dls.model.entity.InventoryHistory;
 import com.duke.dls.model.entity.Student;
 import com.duke.dls.model.StudentRequest;
 import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
+import com.duke.dls.repo.InventoryHistoryEntityRepository;
 import com.duke.dls.repo.StudentEntityRepository;
 import com.duke.dls.repo.StudentHistoryEntityRepository;
 import com.duke.dls.service.StudentService;
@@ -31,6 +34,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     InventoryEntityRepository inventoryEntityRepository;
 
+    @Autowired
+    InventoryHistoryEntityRepository inventoryHistoryEntityRepository;
+
     @Override
     public List<Student> getAllStudents() {
         return studentEntityRepository.findAllActive();
@@ -42,7 +48,9 @@ public class StudentServiceImpl implements StudentService {
         try {
             BeanUtils.copyProperties(student, request);
             student.setIsActive("Y");
-            studentEntityRepository.saveAndFlush(student);
+            student =  studentEntityRepository.saveAndFlush(student);
+            StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Student inserted with Net ID: " + student.getNetId()).build();
+            studentHistoryEntityRepository.saveAndFlush(studentHistory);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -72,7 +80,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deactivateStudent(StudentRequest request) {
         Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
-        student.setIsActive("N");
+        student.setIsActive(AppConstants.N);
         studentEntityRepository.saveAndFlush(student);
     }
 
@@ -84,9 +92,15 @@ public class StudentServiceImpl implements StudentService {
         student.setInventory(inventory);
         studentEntityRepository.saveAndFlush(student);
 
-        inventory.setIscheckedout("Y");
-        inventory.setStatus("IN_USE");
+        StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Inventory assigned - Laptop SN: " + inventory.getLaptopSn()).build();
+        studentHistoryEntityRepository.saveAndFlush(studentHistory);
+
+        inventory.setIscheckedout(AppConstants.Y);
+        inventory.setStatus(AppConstants.IN_USE);
         inventoryEntityRepository.saveAndFlush(inventory);
+
+        InventoryHistory inventoryHistory = InventoryHistory.builder().status(AppConstants.IN_USE).inventoryId(inventory.getInventoryId()).comments("Inventory assigned to student - Net ID:  " + student.getNetId()).build();
+        inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
     }
 
     @Override
@@ -94,5 +108,10 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
         StudentHistory studentHistory = StudentHistory.builder().studentId(request.getStudentId()).netId(student.getNetId()).comments(request.getComments()).build();
         studentHistoryEntityRepository.saveAndFlush(studentHistory);
+    }
+
+    @Override
+    public List<StudentHistory> getAllStudentHistory(Long studentId) {
+        return studentHistoryEntityRepository.findAllStudentHistoryOrdered(studentId);
     }
 }

@@ -1,8 +1,10 @@
 package com.duke.dls.service.impl;
 
+import com.duke.dls.constant.AppConstants;
 import com.duke.dls.model.InventoryRequest;
 import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.entity.InventoryHistory;
+import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.InventoryHistoryEntityRepository;
 import com.duke.dls.service.InventoryService;
@@ -40,10 +42,13 @@ public class InventoryServiceImpl implements InventoryService {
         Inventory inventory = new Inventory();
         try {
             BeanUtils.copyProperties(inventory, request);
-            inventory.setIsActive("Y");
-            inventory.setStatus("SPARE");
-            inventory.setIscheckedout("N");
-            inventoryEntityRepository.saveAndFlush(inventory);
+            inventory.setIsActive(AppConstants.Y);
+            inventory.setStatus(AppConstants.SPARE);
+            inventory.setIscheckedout(AppConstants.N);
+            inventory = inventoryEntityRepository.saveAndFlush(inventory);
+
+            InventoryHistory inventoryHistory = InventoryHistory.builder().inventoryId(inventory.getInventoryId()).status(AppConstants.SPARE).comments("Inventory inserted with SN: " + inventory.getLaptopSn()).build();
+            inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
         } catch (Exception e) {
             e.printStackTrace();
         }
