@@ -47,6 +47,15 @@ public class StudentController {
         return ResponseEntity.ok(studentResponse);
     }
 
+    @GetMapping(value = "/getStudentByInventoryId/{inventoryId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<StudentResponse> getStudentByInventoryId(@PathVariable Long inventoryId) throws Exception {
+        StudentResponse studentResponse = new StudentResponse();
+        Student student = studentService.getStudentByInventoryId(inventoryId);
+        studentResponse.setStudent(student);
+
+        return ResponseEntity.ok(studentResponse);
+    }
+
     @PostMapping(value = "/insertStudent", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity insertStudent(@RequestBody StudentRequest request) {
         studentService.insertStudent(request);

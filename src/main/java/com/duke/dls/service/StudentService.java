@@ -24,4 +24,5 @@ public interface StudentService {
 
     List<StudentHistory> getAllStudentHistory(Long studentId);
 
+    Student getStudentByInventoryId(Long inventoryId) throws Exception;
 }

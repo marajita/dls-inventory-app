@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -89,6 +90,17 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
         Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
 
+        //unassign existing inventory if present
+        if(student.getInventory()!=null){
+            Inventory inventoryCurrent = student.getInventory();
+            inventoryCurrent.setIscheckedout(AppConstants.N);
+            inventoryCurrent.setStatus(AppConstants.SPARE);
+            inventoryEntityRepository.saveAndFlush(inventoryCurrent);
+
+            InventoryHistory inventoryHistory = InventoryHistory.builder().status(inventoryCurrent.getStatus()).inventoryId(inventoryCurrent.getInventoryId()).comments("Inventory unassigned from student - Net ID:  " + student.getNetId()).build();
+            inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+        }
+
         student.setInventory(inventory);
         studentEntityRepository.saveAndFlush(student);
 
@@ -113,5 +125,14 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentHistory> getAllStudentHistory(Long studentId) {
         return studentHistoryEntityRepository.findAllStudentHistoryOrdered(studentId);
+    }
+
+    @Override
+    public Student getStudentByInventoryId(Long inventoryId) throws Exception {
+        try {
+            return studentEntityRepository.getStudentByInventoryId(inventoryId);
+        }catch(NonUniqueResultException e){
+            throw new Exception(e);
+        }
     }
 }
