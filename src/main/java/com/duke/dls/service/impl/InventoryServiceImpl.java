@@ -8,6 +8,7 @@ import com.duke.dls.model.entity.Student;
 import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.InventoryHistoryEntityRepository;
+import com.duke.dls.repo.StudentEntityRepository;
 import com.duke.dls.service.InventoryService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     InventoryHistoryEntityRepository inventoryHistoryEntityRepository;
+
+    @Autowired
+    StudentEntityRepository studentEntityRepository;
 
     @Override
     public List<Inventory> getAllInventory() {
@@ -86,6 +90,7 @@ public class InventoryServiceImpl implements InventoryService {
         studentEntityRepository.saveAndFlush(student);
 
         inventory.setStatus(request.getStatus());
+        inventory.setIscheckedout(AppConstants.N);
         inventoryEntityRepository.saveAndFlush(inventory);
 
         InventoryHistory inventoryHistory = InventoryHistory.builder().inventoryId(request.getInventoryId()).comments(request.getComments()).status(request.getStatus()).build();
