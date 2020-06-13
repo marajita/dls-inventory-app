@@ -2,8 +2,10 @@ package com.duke.dls.service.impl;
 
 import com.duke.dls.constant.AppConstants;
 import com.duke.dls.model.InventoryRequest;
+import com.duke.dls.model.StudentRequest;
 import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.entity.InventoryHistory;
+import com.duke.dls.model.entity.Student;
 import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.InventoryHistoryEntityRepository;
@@ -78,7 +80,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void repairInventory(InventoryRequest request) {
         Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
-        inventory.setIsActive("N");
         inventory.setStatus(request.getStatus());
         inventoryEntityRepository.saveAndFlush(inventory);
 
@@ -95,4 +96,17 @@ public class InventoryServiceImpl implements InventoryService {
             return false;
         }
     }
+
+    @Override
+    public List<InventoryHistory> getAllInventoryHistory(Long inventoryId) {
+        return inventoryHistoryEntityRepository.findAllInventoryHistoryOrdered(inventoryId);
+    }
+
+    @Override
+    public void updateInventoryHistory(InventoryRequest request) {
+        Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
+        InventoryHistory inventoryHistory = InventoryHistory.builder().inventoryId(inventory.getInventoryId()).status(inventory.getStatus()).comments(request.getComments()).build();
+        inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+    }
+
 }

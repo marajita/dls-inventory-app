@@ -2,10 +2,10 @@ spring:
     datasource:
         #driverClassName: org.h2.Driver
         driverClassName: com.mysql.cj.jdbc.Driver
-        password: root
-        url: jdbc:mysql://localhost:3306/dlsdb?serverTimezone=UTC
+        password: f18b45e9
+        url: jdbc:mysql://us-cdbr-east-05.cleardb.net:3306/heroku_c754a503c6f585e?serverTimezone=UTC
         #url: jdbc:h2:mem:dlsdb
-        username: root
+        username: b10cf634f64730
     jpa:
         #database-platform: org.hibernate.dialect.H2Dialect
         database-platform: org.hibernate.dialect.MySQL5Dialect

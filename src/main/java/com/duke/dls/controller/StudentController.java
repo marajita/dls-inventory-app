@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "https://dls-inventory1.herokuapp.com", maxAge = 3600)
 @Controller
 @RequestMapping("/api/v1/student-controller")
 public class StudentController {
@@ -43,6 +43,15 @@ public class StudentController {
             studentListOutput.add(std);
         }
         studentResponse.setStudentList(studentListOutput);
+
+        return ResponseEntity.ok(studentResponse);
+    }
+
+    @GetMapping(value = "/getStudentByInventoryId/{inventoryId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<StudentResponse> getStudentByInventoryId(@PathVariable Long inventoryId) throws Exception {
+        StudentResponse studentResponse = new StudentResponse();
+        Student student = studentService.getStudentByInventoryId(inventoryId);
+        studentResponse.setStudent(student);
 
         return ResponseEntity.ok(studentResponse);
     }

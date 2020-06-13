@@ -1,7 +1,10 @@
 package com.duke.dls.controller;
 
+import com.duke.dls.model.InventoryHistoryResponse;
 import com.duke.dls.model.InventoryRequest;
 import com.duke.dls.model.InventoryResponse;
+import com.duke.dls.model.StudentHistoryResponse;
+import com.duke.dls.model.StudentRequest;
 import com.duke.dls.service.InventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "https://dls-inventory1.herokuapp.com", maxAge = 3600)
 @Controller
 @RequestMapping("/api/v1/inventory-controller")
 public class InventoryController {
@@ -74,6 +77,20 @@ public class InventoryController {
        Boolean val =  inventoryService.isInventoryInUse(request);
         return ResponseEntity.ok(val);
 
+    }
+
+    @PostMapping(value = "/updateInventoryHistory", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateInventoryHistory(@RequestBody InventoryRequest request) {
+        inventoryService.updateInventoryHistory(request);
+        return ResponseEntity.ok(request);
+
+    }
+
+    @GetMapping(value = "/getAllInventoryHistory/{inventoryId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<InventoryHistoryResponse> getAllStudentHistory(@PathVariable Long inventoryId) {
+        InventoryHistoryResponse inventoryHistoryResponse = new InventoryHistoryResponse();
+        inventoryHistoryResponse.setInventoryHistoryList(inventoryService.getAllInventoryHistory(inventoryId));
+        return ResponseEntity.ok(inventoryHistoryResponse);
     }
 
     @DeleteMapping(value = "/deleteInventory/{id}")

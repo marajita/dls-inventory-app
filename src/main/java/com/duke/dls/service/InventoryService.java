@@ -2,6 +2,7 @@ package com.duke.dls.service;
 
 import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.InventoryRequest;
+import com.duke.dls.model.entity.InventoryHistory;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface InventoryService {
     void repairInventory(InventoryRequest request);
 
     Boolean isInventoryInUse(InventoryRequest request);
+
+    List<InventoryHistory> getAllInventoryHistory(Long inventoryId);
+
+    void updateInventoryHistory(InventoryRequest request);
 }

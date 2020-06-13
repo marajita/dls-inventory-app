@@ -14,4 +14,6 @@ import java.util.List;
 public class StudentResponse {
 
     List<Student> studentList;
+
+    Student student;
 }
