@@ -26,4 +26,6 @@ public class InventoryRequest {
     private String ischeckedout;
 
     private String comments;
+
+    private Long studentId;
 }

@@ -2,7 +2,6 @@ package com.duke.dls.service.impl;
 
 import com.duke.dls.constant.AppConstants;
 import com.duke.dls.model.InventoryRequest;
-import com.duke.dls.model.StudentRequest;
 import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.entity.InventoryHistory;
 import com.duke.dls.model.entity.Student;
@@ -80,6 +79,12 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void repairInventory(InventoryRequest request) {
         Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
+        Student student = studentEntityRepository.findById(request.getStudentId()).isPresent() ? studentEntityRepository.findById(request.getStudentId()).get() : null;
+
+        //unassigned inventory when sent for repair
+        student.setInventory(null);
+        studentEntityRepository.saveAndFlush(student);
+
         inventory.setStatus(request.getStatus());
         inventoryEntityRepository.saveAndFlush(inventory);
 
