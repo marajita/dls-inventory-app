@@ -135,4 +135,28 @@ public class StudentServiceImpl implements StudentService {
             throw new Exception(e);
         }
     }
+
+    @Override
+    public void updateStudentFromUpload(StudentRequest request) {
+        Student student = studentEntityRepository.findStudentByNetIdAndIsActive(request.getNetId(), "Y");
+        // insert student if not found.
+        if(student == null){
+            insertStudent(request);
+            student = studentEntityRepository.findStudentByNetIdAndIsActive(request.getNetId(), "Y");
+        }
+        Inventory inventory = inventoryEntityRepository.findInventoryByLaptopSn(request.getLaptopSn());
+
+        student.setInventory(inventory);
+        studentEntityRepository.saveAndFlush(student);
+
+        StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Inventory assigned - Laptop SN: " + inventory.getLaptopSn()).build();
+        studentHistoryEntityRepository.saveAndFlush(studentHistory);
+
+        inventory.setIscheckedout(AppConstants.Y);
+        inventory.setStatus(AppConstants.IN_USE);
+        inventoryEntityRepository.saveAndFlush(inventory);
+
+        InventoryHistory inventoryHistory = InventoryHistory.builder().status(AppConstants.IN_USE).inventoryId(inventory.getInventoryId()).comments("Inventory assigned to student - Net ID:  " + student.getNetId()).build();
+        inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+    }
 }
