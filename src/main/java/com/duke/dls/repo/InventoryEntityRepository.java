@@ -15,4 +15,6 @@ public interface InventoryEntityRepository extends JpaRepository<Inventory, Long
 
     @Query("select u from Inventory u where u.isActive = 'Y' and u.status = 'SPARE'")
     List<Inventory> findAllSpare();
+
+    Inventory findInventoryByLaptopSn(String laptopSn);
 }

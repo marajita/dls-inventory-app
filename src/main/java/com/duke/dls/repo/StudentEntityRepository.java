@@ -16,4 +16,6 @@ public interface StudentEntityRepository extends JpaRepository<Student, Long> {
 
     @Query("select u from Student u where u.inventory.inventoryId = :inventoryId")
     Student getStudentByInventoryId(@Param("inventoryId") Long inventoryId);
+
+    Student findStudentByNetIdAndIsActive(String netId, String isActive);
 }
