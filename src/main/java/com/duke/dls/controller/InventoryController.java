@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://dls-inventory1.herokuapp.com", maxAge = 3600)
+@CrossOrigin(origins = "https://dls-inventory.herokuapp.com", maxAge = 3600)
 @Controller
 @RequestMapping("/api/v1/inventory-controller")
 public class InventoryController {
