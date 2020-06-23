@@ -1,10 +1,10 @@
 package com.duke.dls.service.impl;
 
 import com.duke.dls.constant.AppConstants;
+import com.duke.dls.model.StudentRequest;
 import com.duke.dls.model.entity.Inventory;
 import com.duke.dls.model.entity.InventoryHistory;
 import com.duke.dls.model.entity.Student;
-import com.duke.dls.model.StudentRequest;
 import com.duke.dls.model.entity.StudentHistory;
 import com.duke.dls.repo.InventoryEntityRepository;
 import com.duke.dls.repo.InventoryHistoryEntityRepository;
@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             BeanUtils.copyProperties(student, request);
             student.setIsActive("Y");
-            student =  studentEntityRepository.saveAndFlush(student);
+            student = studentEntityRepository.saveAndFlush(student);
             StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Student inserted with Net ID: " + student.getNetId()).build();
             studentHistoryEntityRepository.saveAndFlush(studentHistory);
         } catch (IllegalAccessException e) {
@@ -91,7 +91,7 @@ public class StudentServiceImpl implements StudentService {
         Inventory inventory = inventoryEntityRepository.findById(request.getInventoryId()).isPresent() ? inventoryEntityRepository.findById(request.getInventoryId()).get() : null;
 
         //unassign existing inventory if present
-        if(student.getInventory()!=null){
+        if (student.getInventory() != null) {
             Inventory inventoryCurrent = student.getInventory();
             inventoryCurrent.setIscheckedout(AppConstants.N);
             inventoryCurrent.setStatus(AppConstants.SPARE);
@@ -131,7 +131,7 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentByInventoryId(Long inventoryId) throws Exception {
         try {
             return studentEntityRepository.getStudentByInventoryId(inventoryId);
-        }catch(NonUniqueResultException e){
+        } catch (NonUniqueResultException e) {
             throw new Exception(e);
         }
     }
@@ -140,7 +140,7 @@ public class StudentServiceImpl implements StudentService {
     public void updateStudentFromUpload(StudentRequest request) {
         Student student = studentEntityRepository.findStudentByNetIdAndIsActive(request.getNetId(), "Y");
         // insert student if not found.
-        if(student == null){
+        if (student == null) {
             insertStudent(request);
             student = studentEntityRepository.findStudentByNetIdAndIsActive(request.getNetId(), "Y");
         }
@@ -149,14 +149,16 @@ public class StudentServiceImpl implements StudentService {
         student.setInventory(inventory);
         studentEntityRepository.saveAndFlush(student);
 
-        StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Inventory assigned - Laptop SN: " + inventory.getLaptopSn()).build();
-        studentHistoryEntityRepository.saveAndFlush(studentHistory);
+        if (inventory != null) {
+            StudentHistory studentHistory = StudentHistory.builder().studentId(student.getStudentId()).netId(student.getNetId()).comments("Inventory assigned - Laptop SN: " + inventory.getLaptopSn()).build();
+            studentHistoryEntityRepository.saveAndFlush(studentHistory);
 
-        inventory.setIscheckedout(AppConstants.Y);
-        inventory.setStatus(AppConstants.IN_USE);
-        inventoryEntityRepository.saveAndFlush(inventory);
+            inventory.setIscheckedout(AppConstants.Y);
+            inventory.setStatus(AppConstants.IN_USE);
+            inventoryEntityRepository.saveAndFlush(inventory);
 
-        InventoryHistory inventoryHistory = InventoryHistory.builder().status(AppConstants.IN_USE).inventoryId(inventory.getInventoryId()).comments("Inventory assigned to student - Net ID:  " + student.getNetId()).build();
-        inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+            InventoryHistory inventoryHistory = InventoryHistory.builder().status(AppConstants.IN_USE).inventoryId(inventory.getInventoryId()).comments("Inventory assigned to student - Net ID:  " + student.getNetId()).build();
+            inventoryHistoryEntityRepository.saveAndFlush(inventoryHistory);
+        }
     }
 }
